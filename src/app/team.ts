@@ -1,4 +1,5 @@
 export interface Team {
-    name: string;
-    logo:string;
+    strTeam: string;
+    strTeamLogo:string;
+    urlInLeague: string;
 }

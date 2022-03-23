@@ -1,0 +1,29 @@
+
+  @import '../../styles.scss';
+  
+  .teams-list {
+  //   padding: auto;
+  //   margin: auto;
+  //   max-width: 500px;
+     /* flexbox */
+     display: flex;
+     flex-direction: row;
+     flex-wrap: wrap;
+     justify-content: space-around;
+     align-content: flex-start;
+     align-items: flex-start;
+
+     span {
+       margin: auto;
+
+       h4 {
+        color: #444;
+        font-family: $font-stack;
+        font-weight: lighter;
+      }
+      img {
+        margin: auto;
+      }
+     }
+   }
+

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Input } from '@angular/core';
+import { League } from '../league';
 import { Team } from '../team';
 @Component({
   selector: 'app-teams',
@@ -6,13 +7,11 @@ import { Team } from '../team';
   styleUrls: ['./teams.component.scss']
 })
 export class TeamsComponent implements OnInit {
-  teams: Team[] = [
-    {name:'Hapoel tlv',logo:'logo1'},
-    {name:'Hapoel haifa',logo:'logo2'}
-  ];
+  @Input() teams : Team;
   constructor() { }
 
   ngOnInit(): void {
+    
   }
 
 }

@@ -1,36 +1,45 @@
 import { Component, OnInit } from '@angular/core';
 import { League } from '../league';
 import { Team } from '../team';
+import { LeagueService } from '../league.service';
+
 @Component({
   selector: 'app-leagues',
   templateUrl: './leagues.component.html',
   styleUrls: ['./leagues.component.scss']
 })
 export class LeaguesComponent implements OnInit {
-  teams: Team[] = [
-    {name:'Hapoel tlv',logo:'logo1'},
-    {name:'Hapoel haifa',logo:'logo2'},
-    {name:'bne sakhnin',logo:'logo3'}
-  ];
-  leagues: League[] = [
-    {name:"league 1",teams:this.teams.slice(1,2)},
-    {name:"league 2",teams:this.teams}
-  ];
-
+  
+  leagues? : League[]
+  teams? : Team[]
   selectedLeague?: League;
 
   onSelect(league: League): void {
-  this.selectedLeague = league;
+  
+  this.selectedLeague = league
+  this.getTeamsInLeague(this.selectedLeague)
 }
  
   ngOnInit(): void {
- //   this.getLeagues();
+    this.getLeagues();
   }
 
   getLeagues(): void {
-    // this.leagueService.getLeagues()
-    //   .subscribe(leagues => this.leagues = leagues);
+    
+    this.leagueService.getLeagues()
+      .subscribe(leagues => {
+      this.leagues = leagues.leagues.slice(0,5)
+      });
   }
- // constructor(private leagueService: LeagueService) { }
+
+  getTeamsInLeague(league:League){
+    this.leagueService.getTeamsInLeague(league)
+    .subscribe( teams => {
+      this.teams = teams
+    }
+
+    )
+  }
+  constructor(private leagueService: LeagueService) { }
 
 }
