@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { League } from '../league';
 import { Team } from '../team';
 import { LeagueService } from '../league.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-leagues',
@@ -40,6 +41,8 @@ export class LeaguesComponent implements OnInit {
 
     )
   }
-  constructor(private leagueService: LeagueService) { }
+  constructor(private leagueService: LeagueService
+ //   ,private route:ActivatedRoute
+    ) { }
 
 }

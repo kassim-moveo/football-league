@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, of, tap } from 'rxjs';
+import { BehaviorSubject, Observable, of, tap } from 'rxjs';
 import { League } from './league';
 import { Team } from './team';
 import { catchError } from 'rxjs';
@@ -9,6 +9,8 @@ import { catchError } from 'rxjs';
   providedIn: 'root'
 })
 export class LeagueService {
+  private searchTerm : string ;
+  private leagueSelected : boolean;
   private leaguesUrl:string = 'https://www.thesportsdb.com/api/v1/json/2/all_leagues.php';  // URL to web api
   private teamsUrl  = {
     "English Premier League" : "https://www.thesportsdb.com/api/v1/json/2/search_all_teams.php?l=English%20Premier%20League",
@@ -20,12 +22,21 @@ export class LeagueService {
 
   constructor(private http: HttpClient) { }
 
+  private teamsSubject:BehaviorSubject<any> = new BehaviorSubject(null)
+  $teams:Observable<any> = this.teamsSubject.asObservable()
+
+   searchTermSubject:BehaviorSubject<string> = new BehaviorSubject('')
+  $currentTerm:Observable<any> = this.teamsSubject.asObservable()
+
   getTeamsInLeague(league:League): Observable<Team[]> {
-    
+    this.leagueSelected = true;
+    const newTeams = this.http.get<Team[]>(this.teamsUrl[league.strLeague])
+    this.teamsSubject.next(newTeams)
     return this.http.get<Team[]>(this.teamsUrl[league.strLeague])
   }
 
   getLeagues(): Observable<{leagues:League[]}> {
+    
     return this.http.get<{leagues:League[]}>(this.leaguesUrl)
     
     // .pipe(
@@ -35,7 +46,18 @@ export class LeagueService {
     // );
   }
  
+  isLeagueSelected() : boolean {
+    return this.leagueSelected;
+  } 
 
+  updateSearchTerm(term:string) : void{
+    this.searchTermSubject.next(term)
+  }
+  // getSearchTerm():Observable<string> {
+  //   console.log( "in service2" + this.searchTerm);
+    
+  //   return of(this.searchTerm)
+  // }
   /**
  * Handle Http operation that failed.
  * Let the app continue.

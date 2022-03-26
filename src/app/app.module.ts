@@ -8,6 +8,11 @@ import { LeaguesComponent } from './leagues/leagues.component';
 import { LeagueDetailComponent } from './league-detail/league-detail.component';
 import { HttpClientModule } from '@angular/common/http';
 import { SearchBarComponent } from './search-bar/search-bar.component';
+import { LoginComponent } from './login/login.component';
+import { HomePageComponent } from './home-page/home-page.component';
+import { AuthService } from './shared/auth.service';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -15,14 +20,18 @@ import { SearchBarComponent } from './search-bar/search-bar.component';
     TeamsComponent,
     LeaguesComponent,
     LeagueDetailComponent,
-    SearchBarComponent
+    SearchBarComponent,
+    LoginComponent,
+    HomePageComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    Ng2SearchPipeModule,
+    FormsModule
   ],
-  providers: [],
+  providers: [AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,0 +1,12 @@
+<form >
+    <div class="container">
+      <label for="uname"><b>Username</b></label>
+      <input #box type="text" placeholder="Enter Username" name="uname" required (input) = "onUpdateUsername($event)">
+  
+      <button (click)="onSubmit()">
+      Login
+    </button>
+      
+    </div>
+  
+  </form>
