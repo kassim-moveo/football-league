@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LeagueService } from '../league.service';
-import { Router,ActivatedRoute } from '@angular/router';
+  import { Router,ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-search-bar',
@@ -20,10 +20,6 @@ export class SearchBarComponent implements OnInit {
     localStorage.setItem("search-history",JSON.stringify(this.searchHistory) )
   }
 
-  onSignOut():void{
-    localStorage.removeItem("loggedIn")
-    this.router.navigate(['../login'], { relativeTo: this.route });
-  }
 
   onSubmit():void{
 
@@ -36,25 +32,5 @@ export class SearchBarComponent implements OnInit {
     this.leagueService.updateSearchTerm(this.term)
   }
 
-  public codeValue: string;
-
-  public codeList = [
-    { id: 1, name: 'Angular 2+' },
-    { id: 2, name: 'Angular 4' },
-    { id: 3, name: 'Angular 5' },
-    { id: 4, name: 'Angular 6' },
-    { id: 5, name: 'Angular 7' },
-    { id: 5, name: 'Angular 8' },
-    { id: 5, name: 'Angular 9' },
-    { id: 5, name: 'Angular 11' },
-  ];
-
-  // getLeagues(): void {
-    
-  //   this.leagueService.getLeagues()
-  //     .subscribe(leagues => {
-  //     this.leagues = leagues.leagues.slice(0,5)
-  //     });
-  // }
 
 }

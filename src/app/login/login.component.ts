@@ -26,6 +26,8 @@ export class LoginComponent implements OnInit {
       localStorage.setItem('loggedIn','true')
       // route to homepage
       this.router.navigate(['../home'], { relativeTo: this.route });
+    } else{
+      window.alert("incorrect user info")
     }
     
 

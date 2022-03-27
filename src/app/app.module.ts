@@ -13,6 +13,9 @@ import { HomePageComponent } from './home-page/home-page.component';
 import { AuthService } from './shared/auth.service';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { FormsModule } from '@angular/forms';
+import { MapComponent } from './map/map.component';
+import { HeaderComponent } from './header/header.component';
+
 
 @NgModule({
   declarations: [
@@ -22,14 +25,17 @@ import { FormsModule } from '@angular/forms';
     LeagueDetailComponent,
     SearchBarComponent,
     LoginComponent,
-    HomePageComponent
+    HomePageComponent,
+    MapComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     Ng2SearchPipeModule,
-    FormsModule
+    FormsModule,
+   
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]

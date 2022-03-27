@@ -1,17 +1,14 @@
-<div class="topnav">
-    <button class="active" href="#home" (click)="onSignOut()">Sign Out</button>
-   <!-- <form (ngSubmit)="onSubmit()">
-    <input *ngIf="leagueSelected" type="text" placeholder="Search.." name="search" [(ngModel)]="term">
-   </form> -->
-   <div>
-    <form *ngIf="leagueSelected" (ngSubmit)="onSubmit()">
-    <input type="text" list="suggestions" placeholder="Search.." name="search" [(ngModel)]="term" >
-    <datalist id="suggestions">
-      <option *ngFor="let historyEl of searchHistory"  >{{historyEl}}</option>
-    </datalist>
-    </form>
-  </div>
+
+    <div class="team-search">
+        <form *ngIf="leagueSelected" (ngSubmit)="onSubmit()">
+        <input type="text" list="suggestions" placeholder="Search.." name="search" [(ngModel)]="term" >
+        <datalist id="suggestions">
+          <option *ngFor="let historyEl of searchHistory"  >{{historyEl}}</option>
+        </datalist>
+        </form>
   </div>
 
+
+   
 
  
