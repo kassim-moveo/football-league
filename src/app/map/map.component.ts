@@ -7,8 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MapComponent implements OnInit {
   
-  moveoLocation = { lat:32.06478200837587, lng:34.77182675541776}
-  carmel_market = { lat:32.068837540763475, lng:34.76903626875532}
+  moveoLocation:google.maps.LatLngLiteral = { lat:32.06478200837587, lng:34.77182675541776}
   center = this.moveoLocation
   map: google.maps.Map;
   init_marker: google.maps.Marker;
@@ -28,10 +27,16 @@ export class MapComponent implements OnInit {
   }
  
   initMap():void{
+    
+    const directionsService = new google.maps.DirectionsService();
+    const directionsRenderer = new google.maps.DirectionsRenderer();
     this.map = new google.maps.Map(document.getElementById("map") as HTMLElement, {
+      mapId : 'df48bb85277d9b52',
       center: this.moveoLocation,
       zoom: 13,
-    });
+    } as google.maps.MapOptions
+    );
+    directionsRenderer.setMap(this.map);
     this.init_marker = new google.maps.Marker({
       position : this.moveoLocation,
       map:this.map
@@ -39,75 +44,93 @@ export class MapComponent implements OnInit {
     this.markers.push(this.init_marker)
     this.autoComplete()
 
-    var searchBox = new google.maps.places.SearchBox(document.getElementById("autocomplete") as HTMLInputElement, {
-      bounds: this.defaultBounds
-    });
-
-    
-      searchBox.addListener("places_changed", () => {
-      const places = searchBox.getPlaces();
-    
-      if (places.length == 0) {
-        return;
-      }
-    
-      // Clear out the old markers.
-      this.markers.forEach((marker) => {
-        marker.setMap(null);
-      });
-      this.markers = [];
-    
-      // For each place, get the icon, name and location.
-      const bounds = new google.maps.LatLngBounds();
-    
-      places.forEach((place) => {
-        if (!place.geometry || !place.geometry.location) {
-          console.log("Returned place contains no geometry");
-          return;
-        }
-    
-        const icon = {
-          url: place.icon as string,
-          size: new google.maps.Size(71, 71),
-          origin: new google.maps.Point(0, 0),
-          anchor: new google.maps.Point(17, 34),
-          scaledSize: new google.maps.Size(25, 25),
-        };
-    
-        // Create a marker for each place.
-        this.markers.push(
-          new google.maps.Marker({
-            map:this.map,
-            icon,
-            title: place.name,
-            position: place.geometry.location,
-          })
-        );
-    
-        if (place.geometry.viewport) {
-          // Only geocodes have viewport.
-          bounds.union(place.geometry.viewport);
-        } else {
-          bounds.extend(place.geometry.location);
+    const onChangeHandler = function () {
+      calculateAndDisplayRoute(directionsService, directionsRenderer);
+    };
+   
+    (document.getElementById("directionBtn") as HTMLElement).addEventListener(
+      "click",
+      onChangeHandler
+    );
+    function calculateAndDisplayRoute(
+      directionsService: google.maps.DirectionsService,
+      directionsRenderer: google.maps.DirectionsRenderer
+    ) :void {
+      const home= new google.maps.LatLng(32.1079047897289, 34.793777270760415)
+      const work = new google.maps.LatLng(32.06478200837587, 34.77182675541776)
+      
+      
+      var request = {
+        origin: home,
+        destination: work,
+        travelMode: google.maps.TravelMode.DRIVING,
+      };
+      directionsService.route(request, function(result, status) {
+        if (status == 'OK') {
+          directionsRenderer.setDirections(result);
         }
       });
-
-      this.map.fitBounds(bounds);
-    });
-     
-     
+    }
   }
-  autoComplete():void{
+  
+ 
 
+  autoComplete():void{
+    
+    
     this.autocomplete = new google.maps.places.Autocomplete(
       document.getElementById('autocomplete') as HTMLInputElement,
       {
         bounds:this.defaultBounds,
       types:['establishment'],
-      componentRestrictions: { country: "il" },
+      componentRestrictions: { country: "IL" },
       fields: ["place_id", "geometry", "name"],
       strictBounds:false
       });
+      
+      const map = this.map
+
+      this.autocomplete.bindTo("bounds", map);
+     
+       
+       
+      this.autocomplete.addListener("place_changed", () => {
+          // Clear out the old markers.
+      this.markers.forEach((marker) => {
+        marker.setMap(null);
+        });
+      this.markers = [];
+      // add new marker to markers list
+      const marker = new google.maps.Marker({
+        map,
+        anchorPoint: new google.maps.Point(0, -29),
+      });
+      this.markers.push(marker)
+        marker.setVisible(false);
+    
+        const place = this.autocomplete.getPlace();
+    
+        if (!place.geometry || !place.geometry.location) {
+          // User entered the name of a Place that was not suggested and
+          // pressed the Enter key, or the Place Details request failed.
+          window.alert("No details available for input: '" + place.name + "'");
+          return;
+        }
+    
+        // If the place has a geometry, then present it on a map.
+        if (place.geometry.viewport) {
+          map.fitBounds(place.geometry.viewport);
+        } else {
+          map.setCenter(place.geometry.location);
+          map.setZoom(17);
+        }
+    
+        marker.setPosition(place.geometry.location);
+        marker.setVisible(true);
+    
+     
+      });
+    
 }
 
 
@@ -164,12 +187,7 @@ fillInAddress() {
     }
   }
 
-  // address1Field.value = address1;
-  // postalField.value = postcode;
-
-  // After filling the form with address components from the Autocomplete
-  // prediction, set cursor focus on the second address line to encourage
-  // entry of subpremise information such as apartment, unit, or floor number.
- // address2Field.focus();
 }
+
+
 }
