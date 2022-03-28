@@ -2,16 +2,18 @@
   @import '../../styles.scss';
   
   .teams-list {
-  //   padding: auto;
-  //   margin: auto;
+     padding: auto;
+     margin: auto;
   //   max-width: 500px;
+    top: 10rem;
+    position: relative;
      /* flexbox */
      display: flex;
      flex-direction: row;
      flex-wrap: wrap;
-     justify-content: space-around;
-     align-content: flex-start;
-     align-items: flex-start;
+  //   justify-content: center;
+  //   align-content: flex-start;
+   //  align-items: center;
 
      span {
        margin: auto;

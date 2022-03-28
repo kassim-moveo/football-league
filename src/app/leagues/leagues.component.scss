@@ -3,13 +3,21 @@
   .leagues-menu {
    // padding: 0;
    // margin: auto;
+   margin-top: 5rem;
     max-width: 1000px;
-  
+   position:absolute;
+    float: right;
+    top: 10;
+   // right: 0;
     /* flexbox */
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: space-around;
+    justify-content: space-evenly;
     align-content: flex-start;
     align-items: flex-start;
+  }
+
+  .nav-btn {
+    margin-right: 1rem;
   }
